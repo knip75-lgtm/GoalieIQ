@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B1F1A">
+<title>Goalie IQ</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(ellipse at top,#102B24,#0B1F1A 60%);color:#F2F0E9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;display:flex;justify-content:center}
+.kc{width:100%;max-width:480px;min-height:100vh;display:flex;flex-direction:column}
+header{padding:24px 20px 12px}
+.brand{font-size:11px;font-weight:700;letter-spacing:.18em;color:#E8FF59;margin-bottom:12px}
+.trk{display:flex;gap:5px}
+.seg{flex:1;height:3px;border-radius:2px;background:rgba(242,240,233,.15)}
+.seg.on{background:#E8FF59}
+main{flex:1;padding:8px 20px 32px;display:flex;flex-direction:column}
+footer{padding:10px 20px 24px;text-align:center;font-size:11px;color:rgba(199,205,200,.3)}
+.screen{animation:rise .3s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.screen{animation:none}}
+.ey{font-size:11px;font-weight:700;letter-spacing:.12em;color:#9CAE3F;margin-bottom:10px;text-transform:uppercase}
+.ey b{color:#E8FF59}
+h1{font-size:22px;font-weight:600;line-height:1.25;margin-bottom:14px;color:#F2F0E9}
+h1.sm{font-size:17px}
+.lede{font-size:14px;line-height:1.6;color:#C7CDC8;margin-bottom:18px}
+.card{background:rgba(242,240,233,.05);border:0.5px solid rgba(242,240,233,.12);border-radius:14px;padding:16px;margin-bottom:12px}
+.clbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:#9CAE3F;margin-bottom:8px;text-transform:uppercase}
+.cbody{font-size:14px;line-height:1.6;color:#F2F0E9}
+.sig{margin-top:12px;padding-top:12px;border-top:0.5px dashed rgba(242,240,233,.15);font-size:13px;color:#E8FF59;font-weight:600;line-height:1.5}
+.brow{display:flex;gap:8px;margin-top:auto;padding-top:20px}
+button{font-family:inherit;font-weight:600;font-size:14px;border:none;border-radius:12px;padding:14px 18px;cursor:pointer;transition:opacity .12s,transform .1s;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.97)}
+button:focus-visible{outline:2px solid #E8FF59;outline-offset:2px}
+button:disabled{opacity:.35;cursor:not-allowed}
+.bp{background:#E8FF59;color:#0B1F1A;width:100%}
+.bp:hover:not(:disabled){opacity:.9}
+.bs{background:transparent;color:#C7CDC8;border:0.5px solid rgba(242,240,233,.25);width:100%}
+.chs{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.ch{background:rgba(242,240,233,.05);border:1.5px solid rgba(242,240,233,.15);border-radius:12px;padding:14px 16px;text-align:left;color:#F2F0E9;font-size:14px;font-weight:500;cursor:pointer;width:100%;font-family:inherit;transition:all .15s;display:flex;justify-content:space-between;align-items:flex-start}
+.ch:hover{border-color:rgba(242,240,233,.35);background:rgba(242,240,233,.08)}
+.ch.sel-ja{border-color:#5FE0A8;background:rgba(95,224,168,.1);color:#5FE0A8}
+.ch.sel-nee{border-color:#E8FF59;background:rgba(232,255,89,.08);color:#E8FF59}
+.ch-left{display:flex;flex-direction:column}
+.ch .sub{font-weight:400;font-size:12px;color:#C7CDC8;margin-top:2px}
+.ch-check{font-size:14px;opacity:0;transition:opacity .15s;flex-shrink:0;margin-top:1px}
+.ch.sel-ja .ch-check,.ch.sel-nee .ch-check{opacity:1}
+.freq-block{overflow:hidden;max-height:0;opacity:0;transition:max-height .25s ease,opacity .25s ease}
+.freq-block.show{max-height:120px;opacity:1}
+.scl{display:flex;gap:6px;margin-bottom:14px}
+.sb{flex:1;background:rgba(242,240,233,.05);border:1.5px solid rgba(242,240,233,.15);border-radius:12px;padding:12px 4px;text-align:center;color:#C7CDC8;font-size:12px;font-weight:600;line-height:1.3;cursor:pointer;font-family:inherit;transition:all .15s}
+.sb.sel-freq{border-color:#f59e0b;background:#fffbeb;color:#92400e}
+.bdg{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:12px;letter-spacing:.05em}
+.bdg.w{background:#2A1812;color:#FF6B4A}
+.bdg.o{background:rgba(95,224,168,.15);color:#5FE0A8}
+.abl{border-radius:14px;padding:16px;margin-bottom:12px;border:0.5px solid rgba(242,240,233,.12)}
+.abl.ok{background:rgba(95,224,168,.08);border-color:rgba(95,224,168,.3)}
+.abl.wn{background:rgba(255,107,74,.1);border-color:rgba(255,107,74,.35)}
+.abl .at{font-size:15px;font-weight:600;margin-bottom:6px}
+.abl.ok .at{color:#5FE0A8}.abl.wn .at{color:#FF6B4A}
+.abl .ax{font-size:13px;line-height:1.6;color:#F2F0E9}
+.ih{text-align:center;padding:48px 0 16px}
+.gg{display:none}
+.logo-text{font-size:52px;font-weight:800;letter-spacing:-.02em;color:#E8FF59;line-height:1;margin-bottom:6px;text-shadow:0 0 40px rgba(232,255,89,.3)}
+.logo-sub{font-size:12px;font-weight:600;letter-spacing:.25em;color:#9CAE3F;text-transform:uppercase;margin-bottom:28px}
+
+.ni{width:100%;background:rgba(242,240,233,.06);border:1.5px solid rgba(242,240,233,.15);border-radius:12px;padding:14px;color:#F2F0E9;font-size:15px;font-family:inherit;margin-bottom:16px;transition:border-color .15s}
+.ni:focus{outline:none;border-color:#E8FF59}
+.ni::placeholder{color:rgba(199,205,200,.4)}
+.sr{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:rgba(242,240,233,.05);border:0.5px solid rgba(242,240,233,.12);margin-bottom:8px}
+.si{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.si.w{background:#2A1812}.si.o{background:rgba(95,224,168,.15)}
+.sn{font-weight:600;font-size:14px;display:block;margin-bottom:1px;color:#F2F0E9}
+.ss{color:#C7CDC8;font-size:12px}
+.ht{background:rgba(232,255,89,.06);border:0.5px solid rgba(232,255,89,.2);border-radius:14px;padding:16px;margin-bottom:14px}
+.hn{font-size:17px;font-weight:600;margin-bottom:3px;color:#F2F0E9}
+.hs{font-size:12px;color:#C7CDC8}
+.wn{display:flex;gap:6px;margin-bottom:12px}
+.wt{flex:1;padding:10px 4px;border-radius:10px;border:0.5px solid rgba(242,240,233,.15);background:rgba(242,240,233,.05);color:#C7CDC8;font-size:11px;font-weight:700;font-family:inherit;text-align:center;cursor:pointer;line-height:1.4;transition:all .15s}
+.wt.on{border-color:#E8FF59;background:rgba(232,255,89,.1);color:#E8FF59}
+.wt .cw{display:block;font-size:9px;color:#9CAE3F;margin-top:2px}
+.tts{display:flex;border-radius:10px;overflow:hidden;border:0.5px solid rgba(242,240,233,.15);margin-bottom:14px}
+.tt{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;background:rgba(242,240,233,.05);color:#C7CDC8;border:none;transition:all .15s}
+.tt.on{background:rgba(232,255,89,.1);color:#E8FF59}
+.tt.fon{background:rgba(95,224,168,.1);color:#5FE0A8}
+.week-info{font-size:12px;color:#C7CDC8;font-style:italic;margin-bottom:14px;padding:10px 14px;background:rgba(242,240,233,.04);border-radius:10px;border:0.5px solid rgba(242,240,233,.1)}
+.blok{border-radius:12px;margin-bottom:10px;overflow:hidden;border:0.5px solid rgba(242,240,233,.12)}
+.blok-hdr{display:flex;align-items:center;gap:8px;padding:9px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.bnum{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.blok-body{padding:14px;background:rgba(242,240,233,.04)}
+.blok-body.fld{background:rgba(95,224,168,.05);border-top:0.5px solid rgba(95,224,168,.15)}
+.blok.mob .blok-hdr{background:rgba(26,96,128,.25);color:#7ecfec}
+.blok.mob .bnum{background:#1a6080;color:white}
+.blok.sta .blok-hdr{background:rgba(26,107,58,.25);color:#6ed496}
+.blok.sta .bnum{background:#1a6b3a;color:white}
+.blok.romp .blok-hdr{background:rgba(125,74,0,.25);color:#f0b060}
+.blok.romp .bnum{background:#7d4a00;color:white}
+.blok.exp .blok-hdr{background:rgba(91,44,111,.25);color:#c880e8}
+.blok.exp .bnum{background:#5b2c6f;color:white}
+.blok.danger .blok-hdr{background:rgba(255,107,74,.15);color:#FF6B4A}
+.blok.danger .bnum{background:#FF6B4A;color:white}
+.blok.danger .blok-body{background:rgba(255,107,74,.06)}
+.focus-pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#E8FF59;color:#0B1F1A;margin-left:auto}
+.maint-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(242,240,233,.1);color:#C7CDC8;border:0.5px solid rgba(242,240,233,.2);margin-left:auto}
+.warn-pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(255,107,74,.2);color:#FF6B4A;margin-left:auto}
+.exn{font-weight:600;font-size:14px;margin-bottom:5px;color:#F2F0E9}
+.exi{font-size:13px;line-height:1.6;color:#C7CDC8;margin-bottom:8px}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px}
+.chip{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;background:rgba(232,255,89,.12);color:#E8FF59}
+.chip.f{background:rgba(95,224,168,.12);color:#5FE0A8}
+.cch{margin-top:9px;padding-top:9px;border-top:0.5px dashed rgba(242,240,233,.12);font-size:12px;color:#9CAE3F;line-height:1.5}
+.div{height:0.5px;background:rgba(242,240,233,.1);margin:16px 0}
+.hpw{margin-top:8px}
+.hpt{width:100%;text-align:left;background:rgba(232,255,89,.05);border:0.5px solid rgba(232,255,89,.2);border-radius:10px;padding:12px 14px;color:#C7CDC8;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.hpt:hover{background:rgba(232,255,89,.1)}
+.hpc{background:rgba(242,240,233,.04);border:0.5px solid rgba(242,240,233,.1);border-radius:10px;padding:14px;margin-top:6px;margin-bottom:6px}
+.hpn{font-weight:600;font-size:13px;color:#E8FF59;margin-bottom:4px}
+.hptag{display:inline-block;font-size:10px;font-weight:700;background:rgba(232,255,89,.15);color:#9CAE3F;padding:2px 7px;border-radius:4px;margin-bottom:6px}
+.hpd{font-size:12px;line-height:1.6;color:#C7CDC8;margin-bottom:5px}
+.hptr{font-size:11px;color:#9CAE3F;font-style:italic}
+</style>
+</head>
+<body>
+<div class="kc">
+  <header>
+    <div class="brand">GOALIE IQ</div>
+    <div class="trk" id="track"></div>
+  </header>
+  <main id="main"></main>
+  <footer>Eigen ontwikkeling &middot; geen vervanging voor medisch advies</footer>
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>
